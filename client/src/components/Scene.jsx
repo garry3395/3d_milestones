@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useScroll } from "@react-three/drei";
 import Box from "./Box";
@@ -7,33 +7,36 @@ import Galaxy from "./Galaxy";
 const Scene = () => {
   const scrollData = useScroll();
   const groupRef = useRef();
+  const [anyHovered, setAnyHovered] = useState(false); // Global hover state
 
-  const projects = [
-    { title: "Intro", pos: [0, 0, 0] },
-    { title: "MERN Stack", pos: [2, -1, -10] },
-    { title: "Three.js", pos: [-3, 2, -20] },
-    { title: "AI/ML", pos: [3, -2, -30] },
-    { title: "Next.js", pos: [-2, -3, -40] },
-    { title: "GSAP", pos: [4, 4, -50] },
-    { title: "Final", pos: [0, 0, -60] },
+  const chats = [
+    { title: "Garry: Oye, sunn!", color: "#00ffff", pos: [2, 1, -5] },
+    { title: "Bhai: Haan bol?", color: "#ff00ff", pos: [-2, -2, -15] },
+    { title: "Garry: Look check kar!", color: "#ffff00", pos: [3, 2, -25] },
+    { title: "Bhai: Zeher setup hai!", color: "#00ff00", pos: [-3, 0, -35] },
+    { title: "Garry: Animation dekh ab.", color: "#00ffff", pos: [0, -4, -45] },
   ];
 
-  useFrame((state) => {
-    // scrollData.offset 0 se 1 tak jata hai scroll ke saath
-    const offset = scrollData.offset;
-    
-    // Pure group ko camera ki taraf khinchenge (Z-axis move)
-    groupRef.current.position.z = offset * 60; 
-
-    // Halka sa floating movement pure scene ke liye
-    groupRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.3) * 0.05;
+  useFrame(() => {
+    groupRef.current.position.z = scrollData.offset * 60;
   });
 
   return (
     <group ref={groupRef}>
       <Galaxy />
-      {projects.map((item, index) => (
-        <Box key={index} position={item.pos} title={item.title} />
+      {chats.map((chat, i) => (
+        <group 
+          key={i} 
+          onPointerOver={() => setAnyHovered(true)} 
+          onPointerOut={() => setAnyHovered(false)}
+        >
+          <Box 
+            position={chat.pos} 
+            title={chat.title} 
+            accentColor={chat.color}
+            anyHovered={anyHovered} // Sabko bataya ki koi ek hover hua hai
+          />
+        </group>
       ))}
     </group>
   );
