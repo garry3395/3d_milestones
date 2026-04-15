@@ -1,22 +1,40 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import Box from "./Box"; // Tumne file structure mein Box.jsx banaya hua hai
+import { useScroll } from "@react-three/drei";
+import Box from "./Box";
+import Galaxy from "./Galaxy";
 
 const Scene = () => {
-  const sceneRef = useRef();
+  const scrollData = useScroll();
+  const groupRef = useRef();
 
-  // Basic floating animation for the whole scene
+  const projects = [
+    { title: "Intro", pos: [0, 0, 0] },
+    { title: "MERN Stack", pos: [2, -1, -10] },
+    { title: "Three.js", pos: [-3, 2, -20] },
+    { title: "AI/ML", pos: [3, -2, -30] },
+    { title: "Next.js", pos: [-2, -3, -40] },
+    { title: "GSAP", pos: [4, 4, -50] },
+    { title: "Final", pos: [0, 0, -60] },
+  ];
+
   useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    sceneRef.current.rotation.y = Math.sin(t / 4) * 0.1;
+    // scrollData.offset 0 se 1 tak jata hai scroll ke saath
+    const offset = scrollData.offset;
+    
+    // Pure group ko camera ki taraf khinchenge (Z-axis move)
+    groupRef.current.position.z = offset * 60; 
+
+    // Halka sa floating movement pure scene ke liye
+    groupRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.3) * 0.05;
   });
 
   return (
-    <group ref={sceneRef}>
-      {/* Abhi ke liye testing ke liye 3 cubes setup karte hain */}
-      <Box position={[-2, 0, 0]} title="Project Alpha" />
-      <Box position={[0, 0, 0]} title="Vision 2026" />
-      <Box position={[2, 0, 0]} title="The Deep Dive" />
+    <group ref={groupRef}>
+      <Galaxy />
+      {projects.map((item, index) => (
+        <Box key={index} position={item.pos} title={item.title} />
+      ))}
     </group>
   );
 };

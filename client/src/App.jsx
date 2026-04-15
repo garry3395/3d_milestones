@@ -1,42 +1,37 @@
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, OrthographicCamera, Environment, ContactShadows } from "@react-three/drei";
-import Scene from "./components/Scene"; // Hum ye component banayenge
+import { ScrollControls, Scroll, Environment } from "@react-three/drei";
+import Scene from "./components/Scene";
 
 function App() {
   return (
-    <div className="h-screen w-full bg-[#050505]"> 
-      <Canvas shadows>
-        {/* Orthographic Camera for that flat-but-3D look */}
-     <OrthographicCamera 
-      makeDefault 
-  position={[5, 5, 5]} // Thoda paas laao camera
-  zoom={50}            // Zoom thoda kam karo taaki wide view mile
-    />
-        
+    <div className="h-screen w-full bg-[#050505]">
+      <Canvas shadows camera={{ position: [0, 0, 10], fov: 35 }}>
         <color attach="background" args={["#050505"]} />
         
-        {/* Lighting: Soft and Moody */}
+        {/* ScrollControls: Ye pure scene ko scrollable bana dega */}
+        <ScrollControls pages={5} damping={0.3}>
+          <Scroll>
+            <Scene />
+          </Scroll>
+          
+          {/* HTML layer agar scroll ke saath text dikhana ho */}
+          <Scroll html>
+            <div className="w-screen">
+               {/* 2D overlays yahan aa sakte hain */}
+            </div>
+          </Scroll>
+        </ScrollControls>
+
         <ambientLight intensity={0.5} />
-        <directionalLight position={[5, 5, 5]} intensity={1} castShadow />
-        <pointLight position={[-5, -5, -5]} intensity={0.5} color="cyan" />
-
-        {/* The Actual 3D Content */}
-        <Scene />
-
-        {/* Environment for Glass Reflections */}
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} />
         <Environment preset="city" />
-        
-        {/* Ground reflection-like feel */}
-        <ContactShadows opacity={0.4} scale={20} blur={2.4} far={4.5} />
       </Canvas>
-      
-      {/* UI Layer */}
+
       <div className="fixed top-10 left-10 text-white z-10 pointer-events-none">
-        <h1 className="text-4xl font-bold tracking-tighter">GARRY <span className="text-cyan-400">3D</span></h1>
-        <p className="opacity-50">Scroll to explore the cubes...</p>
+        <h1 className="text-4xl font-bold tracking-tighter italic">GARRY <span className="text-cyan-400">3D</span></h1>
+        <p className="opacity-50 italic">Scroll down to dive into the space...</p>
       </div>
     </div>
   );
 }
-
 export default App;
