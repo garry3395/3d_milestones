@@ -10,13 +10,51 @@ const Scene = () => {
   const groupRef = useRef();
   const [anyHovered, setAnyHovered] = useState(false); // Global hover state
 
-  const chats = [
-    { title: "Garry: Oye, sunn!", color: "#00ffff", pos: [2, 1, -5] },
-    { title: "Bhai: Haan bol?", color: "#ff00ff", pos: [-2, -2, -15] },
-    { title: "Garry: Look check kar!", color: "#ffff00", pos: [3, 2, -25] },
-    { title: "Bhai: Zeher setup hai!", color: "#00ff00", pos: [-3, 0, -35] },
-    { title: "Garry: Animation dekh ab.", color: "#00ffff", pos: [0, -4, -45] },
-  ];
+const chats = [
+  { 
+    title: "Garry's Vision", 
+    text: "Building the future of web with 3D immersive experiences. This project is just the beginning of a new era of digital storytelling.",
+    color: "#00ffff", 
+    pos: [-4, 1, -5] 
+  },
+  { 
+    title: "MERN Stack Power", 
+    text: "Combining MongoDB, Express, React, and Node with Three.js opens up endless possibilities for real-time interactive apps.",
+    color: "#ff00ff", 
+    pos: [-2, -2, -15] 
+  },
+  { 
+    title: "AI Integration", 
+    text: "Future update: Adding Gesture Recognition using MediaPipe to control these cubes with hand movements in mid-air!",
+    color: "#ffff00", 
+    pos: [3, 2, -25] 
+  },
+   { 
+    title: "AI Integration", 
+    text: "Future update: Adding Gesture Recognition using MediaPipe to control these cubes with hand movements in mid-air!",
+    color: "#ffff00", 
+    pos: [2, 4, -10] 
+  }
+  ,
+   { 
+    title: "MERN Stack Power", 
+    text: "Combining MongoDB, Express, React, and Node with Three.js opens up endless possibilities for real-time interactive apps.",
+    color: "#ff00ff", 
+    pos: [3, -5, -15] 
+  },
+    { 
+    title: "Garry's Vision", 
+    text: "Building the future of web with 3D immersive experiences. This project is just the beginning of a new era of digital storytelling.",
+    color: "#00ffff", 
+    pos: [6, 1, -5] 
+  },
+      { 
+    title: "Garry's Vision", 
+    text: "Building the future of web with 3D immersive experiences. This project is just the beginning of a new era of digital storytelling.",
+    color: "#00ffff", 
+    pos: [-8, -4, -10] 
+  },
+];
 
   useFrame(() => {
     groupRef.current.position.z = scrollData.offset * 60;
@@ -43,6 +81,7 @@ const Scene = () => {
             position={chat.pos} 
             title={chat.title} 
             accentColor={chat.color}
+            text={chat.text}
             anyHovered={anyHovered}
           />
         </group>

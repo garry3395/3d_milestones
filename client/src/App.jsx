@@ -27,7 +27,7 @@ function App() {
       {/* UI Overlay */}
       <div className="fixed top-10 left-10 text-white z-10 pointer-events-none">
         <h1 className="text-4xl font-bold tracking-tighter italic uppercase">
-          GARRY <span className="text-cyan-400">3D</span>
+          SPACE <span className="text-cyan-400">3D</span>
         </h1>
         <p className="opacity-50 italic">Scroll and hover to read the galaxy...</p>
       </div>

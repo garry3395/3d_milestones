@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { MeshTransmissionMaterial, Edges, Text } from "@react-three/drei";
 import * as THREE from "three";
 
-const Box = ({ position, title, accentColor = "#00ffff", anyHovered }) => {
+const Box = ({ position, title, text,accentColor = "#00ffff", anyHovered }) => {
   const meshRef = useRef();
   const [hovered, setHovered] = useState(false);
 
@@ -62,17 +62,20 @@ const Box = ({ position, title, accentColor = "#00ffff", anyHovered }) => {
 
       {hovered && <pointLight distance={10} intensity={15} color={accentColor} />}
 
-      <Text
-        fontSize={0.15}
-        position={[0, 0, 0.76]} 
-        maxWidth={1.2}
-        textAlign="center"
-        font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-        color="white"
-        fillOpacity={hovered ? 1 : 0.2}
-      >
-        {title}
-      </Text>
+   /* Text component for Title and Description */
+<Text
+  fontSize={0.08} // Chota size taaki zyada text aaye
+  position={[0, 0, 0.76]} 
+  maxWidth={1.2} // Cube ki width se thoda kam
+  lineHeight={1.2}
+  textAlign="center"
+  font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+  color="white"
+  fillOpacity={hovered ? 1 : 0} // Sirf hover par text dikhega
+>
+  {/* Yahan hum Title aur Text dono dikhayenge */}
+  {`${title.toUpperCase()}\n\n${text}`}
+</Text>
 
       <Edges 
         scale={1.02} 
