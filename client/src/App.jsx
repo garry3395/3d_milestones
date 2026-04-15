@@ -1,7 +1,8 @@
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls, Scroll, Environment } from "@react-three/drei";
-import { Toaster } from 'sonner'; // 'sonner' use kar rahe hain
+import { Toaster } from 'sonner'; 
 import Scene from "./components/Scene";
+
 
 function App() {
   return (

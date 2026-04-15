@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useScroll } from "@react-three/drei";
 import Box from "./Box";
+import { EffectComposer, Bloom, Noise, Vignette } from "@react-three/postprocessing";
 import Galaxy from "./Galaxy";
 
 const Scene = () => {
@@ -20,26 +21,35 @@ const Scene = () => {
   useFrame(() => {
     groupRef.current.position.z = scrollData.offset * 60;
   });
-
-  return (
+   return (
     <group ref={groupRef}>
       <Galaxy />
+      
+      {/* Post-Processing: Ye scene ko cinematic banayega */}
+      <EffectComposer disableNormalPass>
+        <Bloom 
+          luminanceThreshold={1} 
+          mipmapBlur 
+          intensity={1.5} 
+          radius={0.4} 
+        />
+        <Noise opacity={0.05} /> {/* Halka sa film grain cinematic feel ke liye */}
+        <Vignette eskil={false} offset={0.1} darkness={1.1} /> 
+      </EffectComposer>
+
       {chats.map((chat, i) => (
-        <group 
-          key={i} 
-          onPointerOver={() => setAnyHovered(true)} 
-          onPointerOut={() => setAnyHovered(false)}
-        >
-          <Box 
+        <group key={i} onPointerOver={() => setAnyHovered(true)} onPointerOut={() => setAnyHovered(false)}>
+           <Box 
             position={chat.pos} 
             title={chat.title} 
             accentColor={chat.color}
-            anyHovered={anyHovered} // Sabko bataya ki koi ek hover hua hai
+            anyHovered={anyHovered}
           />
         </group>
       ))}
     </group>
   );
+
 };
 
 export default Scene;
